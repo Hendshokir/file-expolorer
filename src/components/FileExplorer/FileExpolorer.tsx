@@ -1,7 +1,9 @@
 import { useState } from "react";
 import File from "../../images/icons/File";
 import Folder from "../../images/icons/Folder";
+import FileActionPopup from "./FileActionPopup";
 import "./FileExpolorer.scss";
+
 type Props = {
   files: {
     type: string;
@@ -12,27 +14,48 @@ type Props = {
 
 const FileExpolorer = ({ files }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  if (files.type === "file") {
-    return (
-      <div className="wrapper">
-        <File />
-        <h3 className="file-name">{files.name}</h3>
-      </div>
-    );
-  }
+  const [isShowFileActionPopup, setIsShowFileActionPopup] = useState(false);
+  const [activeFileName, setActiveFileName] = useState<string>("");
+  const handleFile = (fileName: string) => {
+    console.log(fileName);
+    setActiveFileName(fileName);
+    setIsShowFileActionPopup(true);
+  };
   return (
-    <div className="folder">
-      <div
-        className="folder-name-wrapper"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {" "}
-        <Folder />
-        <h2 className="folder-name">{files.name}</h2>
-      </div>
-      {isExpanded && files.data?.map((item) => <FileExpolorer files={item} />)}
-    </div>
+    <>
+      {files.type === "folder" ? (
+        <>
+          <div className="folder">
+            <div
+              className="folder-name-wrapper"
+              onClick={() => setIsExpanded(!isExpanded)}
+            >
+              <Folder />
+              <h2 className="folder-name">{files.name}</h2>
+            </div>
+            {isExpanded &&
+              files.data?.map((item) => <FileExpolorer files={item} />)}
+          </div>
+        </>
+      ) : (
+        <div className="wrapper">
+          <File />
+          <h2 onClick={() => handleFile(files?.name)} className="file-name">
+            {" "}
+            {files.name}
+          </h2>
+
+          {isShowFileActionPopup && (
+            <>
+              <FileActionPopup
+                fileName={activeFileName}
+                toggle={() => setIsShowFileActionPopup(!isShowFileActionPopup)}
+              />
+            </>
+          )}
+        </div>
+      )}
+    </>
   );
 };
 
