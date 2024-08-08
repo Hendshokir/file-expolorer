@@ -1,0 +1,14 @@
+.folder {
+    .folder-name-wrapper {
+        cursor: pointer;
+    }
+}
+
+.wrapper, .folder-name-wrapper  { 
+    display: flex; 
+    align-items: center;
+}
+
+h2,h3 {
+    margin-inline-start: 10px;
+}
