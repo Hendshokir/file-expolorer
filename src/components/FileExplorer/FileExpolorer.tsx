@@ -4,11 +4,16 @@ import Folder from "../../images/icons/Folder";
 import FileActionPopup from "./FileActionPopup";
 import "./FileExpolorer.scss";
 
+type FileData = {
+  type: string;
+  meta: string;
+  name: string;
+};
 type Props = {
   files: {
     type: string;
     name: string;
-    data: [];
+    data: FileData[];
   };
 };
 
@@ -40,7 +45,10 @@ const FileExpolorer = ({ files }: Props) => {
       ) : (
         <div className="wrapper">
           <File />
-          <h2 onClick={() => handleFile(files?.name)} className="file-name">
+          <h2
+            onContextMenu={() => handleFile(files?.name)}
+            className="file-name"
+          >
             {" "}
             {files.name}
           </h2>
