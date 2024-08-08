@@ -8,7 +8,7 @@ type Props = {
   files: {
     type: string;
     name: string;
-    data: any[];
+    data: [];
   };
 };
 
